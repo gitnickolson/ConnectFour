@@ -19,9 +19,7 @@ class Game
     puts 'Welcome to "Connect Four"! The player that wants to play with blue chips shall start!'
     puts 'To play, just enter a number ranging from 1 to 7 to place your chip at the specified number.'
 
-    until game_ended
-      game_loop
-    end
+    game_loop until game_ended
   end
 
   def game_loop
@@ -31,8 +29,24 @@ class Game
     player_input = gets.chomp.to_i
     check_input(player_input)
 
-    if !(board.update_board(player_input, player_color) == "Error")
-      @game_turn += 1
+    update_return_value = board.update_board(player_input, player_color)
+    game_state(update_return_value)
+
+    @game_turn += 1
+  end
+
+  def game_state(value)
+    case value
+    when :blue
+      @game_ended = true
+      puts "The game ended after #{game_turn} turns and with blue being the winner! Congratulations!"
+
+    when :red
+      @game_ended = true
+      puts "The game ended after #{game_turn} turns and with red being the winner! Congratulations!"
+
+    when 'Error'
+      nil
     end
   end
 
