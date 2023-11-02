@@ -19,25 +19,21 @@ class Game
     puts 'Welcome to "Connect Four"! The player that wants to play with blue chips shall start!'
     puts 'To play, just enter a number ranging from 1 to 7 to place your chip at the specified number.'
 
-    return if game_ended
-
-    game_loop
+    until game_ended
+      game_loop
+    end
   end
 
   def game_loop
-    player_number = if (game_turn % 2).even?
-                      1
-                    else
-                      2
-                    end
+    player_number = (game_turn % 2).even? ? 1 : 2
 
     player_color = player.get_color(player_number)
     player_input = gets.chomp.to_i
     check_input(player_input)
 
-    game_loop if board.update_board(player_input, player_color).nil?
-
-    @game_turn += 1
+    if !(board.update_board(player_input, player_color) == "Error")
+      @game_turn += 1
+    end
   end
 
   def check_input(input)
