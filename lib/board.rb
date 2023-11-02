@@ -11,6 +11,7 @@ class Board
                      [0, 0, 0, 0, 0, 0, 0],
                      [0, 0, 0, 0, 0, 0, 0]]
     #                1, 2, 3, 4, 5, 6, 7
+    @colors = {}
   end
 
   def print_board
@@ -38,7 +39,6 @@ class Board
       return row if (board_matrix[row][field]).zero?
 
       row -= 1
-
     end
 
     puts "Error: You can't place any more chips in this column"
