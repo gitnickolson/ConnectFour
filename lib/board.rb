@@ -35,7 +35,7 @@ class Board
     board_matrix[row][field] = color
     print_board
 
-    who_wins?
+    winner
   end
 
   def find_free_field(field)
@@ -50,7 +50,7 @@ class Board
     nil
   end
 
-  def who_wins?
+  def winner
     if horizontal_check == :blue || vertical_check == :blue ||
        right_diagonal_check == :blue || left_diagonal_check == :blue
       return :blue

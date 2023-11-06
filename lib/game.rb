@@ -17,7 +17,7 @@ class Game
   def start
     board.print_board
     puts 'Welcome to "Connect Four"! The player that wants to play with blue chips shall start!'
-    puts 'To play, just enter a number ranging from 1 to 7 to place your chip at the specified number.'
+    puts 'To play, just enter a number ranging from 1 to 7 to place your chip in the specified column.'
 
     game_loop until game_ended
   end
