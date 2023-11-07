@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Board
-  attr_accessor :board_matrix
-
   def initialize
     @board_matrix = [%w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
@@ -10,6 +8,7 @@ class Board
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️]]
+    print_board
   end
 
   def print_board
@@ -30,24 +29,9 @@ class Board
     color = colors[player_color]
     row = find_free_field(field)
 
-    return 'Error' if row.nil?
+    return 'No winner' if row.nil?
 
     board_matrix[row][field] = color
-    print_board
-
-    winner
-  end
-
-  def find_free_field(field)
-    row = 5
-    while row >= 0
-      return row if (board_matrix[row][field]) == '⚫️,' || (board_matrix[row][field]) == '⚫️'
-
-      row -= 1
-    end
-
-    puts "Error: You can't place any more chips in this column"
-    nil
   end
 
   def winner
@@ -59,6 +43,22 @@ class Board
       return :red
     end
 
+    nil
+  end
+
+  private
+
+  attr_accessor :board_matrix
+
+  def find_free_field(field)
+    row = 5
+    while row >= 0
+      return row if (board_matrix[row][field]) == '⚫️,' || (board_matrix[row][field]) == '⚫️'
+
+      row -= 1
+    end
+
+    puts "Error: You can't place any more chips in this column"
     nil
   end
 
