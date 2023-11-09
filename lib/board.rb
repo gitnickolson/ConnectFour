@@ -10,10 +10,9 @@ class Board
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️]]
-    print_board
   end
 
-  def print_board
+  def print
     board_matrix.each_with_index do |element, index|
       puts "#{index + 1}  ┃  | #{element.map { |field| "#{field} | " }.join(',').gsub(',', '')} ┃"
     end
@@ -21,7 +20,7 @@ class Board
     puts '         1    2    3    4    5    6    7'
   end
 
-  def update_board(field, player_color)
+  def update(field, player_color)
     colors = {
       blue: '🔵',
       red: '🔴'
@@ -47,6 +46,8 @@ class Board
 
     nil
   end
+
+  private
 
   def find_free_field(field)
     row = 5

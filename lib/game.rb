@@ -7,8 +7,11 @@ require_relative 'board'
 
 class Game
   def initialize
-    @board = Board
+    @board = Board.new
+  end
 
+  def start
+    board.print
   end
 
   private
