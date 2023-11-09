@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
 class Player
-  attr_reader :player_color
+  attr_reader :color
 
   def get_input
-    input = gets.chomp.to_i
-    return input if is_number_valid?(input) == true
+    loop do
+      input = gets.chomp.to_i
+      return input if number_valid?(input)
 
-    puts 'Error: Please enter a number ranging from 1 to 7'
-    nil
+      puts 'Error: Please enter a valid integer number ranging from 1 to 7'
+    end
   end
 
   private
 
-  def is_number_valid?(input)
-    return true if (1..7).include?(input)
-
-    false
+  def number_valid?(input)
+    (1..7).include?(input)
   end
 end

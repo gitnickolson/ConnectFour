@@ -7,11 +7,9 @@ describe BluePlayer do
     expect(described_class).to be < Player
   end
 
-  context 'when initialized' do
-    let(:player_color) { :blue }
-
-    it 'is assigned with the color blue' do
-      expect(player_color).to eq(:blue)
+  describe '#color' do
+    it 'returns blue' do
+      expect(BluePlayer.new.color).to eq(:blue)
     end
   end
 end

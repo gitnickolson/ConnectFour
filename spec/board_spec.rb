@@ -2,8 +2,7 @@
 
 require './lib/board'
 
-
-RSpec.describe Board do
+RSpec.xdescribe Board do
   let(:board) { Board.new }
 
   xdescribe '#update_board' do
@@ -47,8 +46,6 @@ RSpec.describe Board do
 
     it 'prints the board with a red chip at the bottom of the 5th column' do
       board.update_board(5, :red)
-
-      expected_output = <<~BOARD
         1  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
         2  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
         3  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃

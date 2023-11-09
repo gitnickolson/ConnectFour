@@ -2,6 +2,7 @@
 
 class Board
   attr_reader :board_matrix
+
   def initialize
     @board_matrix = [%w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],

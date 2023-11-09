@@ -5,6 +5,6 @@ require_relative 'player'
 class BluePlayer < Player
   def initialize
     super
-    @player_color = :blue
+    @color = :blue
   end
 end
