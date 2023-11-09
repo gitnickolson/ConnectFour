@@ -19,20 +19,26 @@ class Game
     puts "Welcome to Connect Four! The player that wants to play with blue chips shall start!
 To play, just enter a number ranging from 1 to 7 to place your chip in the specified column."
 
-    game_loop until game_ended
+    loop until game_ended
   end
 
-  def game_loop
-    active_player = (game_turn % 2).even? ? player_one : player_two
-    player_color = active_player.get_color(active_player.player_number)
-    player_input = active_player.get_input
+  def loop
+    @active_player = (game_turn % 2).even? ? player_one : player_two
+    @player_color = active_player.get_color(active_player.player_number)
+    @player_input = active_player.get_input
     return if player_input.nil?
 
-    board.update_board(player_input, player_color)
-    board.print_board
+    exchange_data(player_input, player_color)
     game_state(board.winner)
 
     @game_turn += 1
+  end
+
+  private
+
+  def exchange_data(player_input, player_color)
+    board.update_board(player_input, player_color)
+    board.print_board
   end
 
   def game_state(value)

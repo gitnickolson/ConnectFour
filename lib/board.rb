@@ -46,9 +46,9 @@ class Board
     nil
   end
 
-  private
-
   attr_accessor :board_matrix
+
+  private
 
   def find_free_field(field)
     row = 5
