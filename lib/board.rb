@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Board
+  attr_reader :board_matrix
   def initialize
     @board_matrix = [%w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
@@ -45,10 +46,6 @@ class Board
 
     nil
   end
-
-  attr_accessor :board_matrix
-
-  private
 
   def find_free_field(field)
     row = 5

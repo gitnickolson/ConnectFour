@@ -3,40 +3,26 @@
 require './lib/player'
 
 describe Player do
-  let(:player) { Player.new (:blue) }
-
-  describe '#initialize' do
-    it 'initializes the player class with the color blue' do
-      expect(Player.new(:blue)).to be_a(Player)
+  let(:player) { Player.new }
+  describe '#get_input' do
+    it 'can receives input' do
+      allow(player).to receive(:gets).and_return("5\n")
+      expect(player.get_input).to eq(5)
     end
 
-    it 'initializes the player class with the color red' do
-      expect(Player.new(:red)).to be_a(Player)
-    end
-
-    it 'fails when entering something else' do
-      expect{ Player.new(:something) }.to raise_error
+    it 'displays error message for invalid input' do
+      allow(player).to receive(:gets).and_return("10\n")
+      expect { player.get_input }.to output("Error: Please enter a number ranging from 1 to 7\n").to_stdout
     end
   end
 
-  describe '#get_color' do
-    it 'returns blue for a blue player' do
-      expect(player.get_color).to eql(:blue)
+  describe '#is_number_valid?' do
+    it 'returns true for valid input' do
+      expect(player.send(:is_number_valid?, 3)).to be_truthy
     end
 
-    it 'returns red for a red player' do
-      player = Player.new(:red)
-      expect(player.get_color).to eql(:red)
-    end
-  end
-
-  xdescribe "#get_input" do
-    it "returns valid input" do
-      allow(player).to receive(:gets).and_return("3")
-
-
-      expect(player).to receive(:is_number_valid?).with(3).and_return(true)
-
+    it 'returns false for invalid input' do
+      expect(player.send(:is_number_valid?, 10)).to be_falsy
     end
   end
 end

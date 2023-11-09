@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'player'
+require_relative 'blue_player'
+require_relative 'red_player'
 require_relative 'board'
 
 class Game
@@ -11,8 +13,8 @@ class Game
     @board = Board.new
     @game_turn = 0
     @game_ended = false
-    @player_one = Player.new(1)
-    @player_two = Player.new(2)
+    @player_one = BluePlayer.new
+    @player_two = RedPlayer.new
   end
 
   def start
@@ -24,7 +26,7 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
 
   def loop
     @active_player = (game_turn % 2).even? ? player_one : player_two
-    @player_color = active_player.get_color(active_player.player_number)
+    @player_color = active_player.player_color
     @player_input = active_player.get_input
     return if player_input.nil?
 

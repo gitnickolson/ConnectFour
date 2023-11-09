@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/board'
-require 'stringio'
+
 
 RSpec.describe Board do
   let(:board) { Board.new }
@@ -48,6 +48,17 @@ RSpec.describe Board do
     it 'prints the board with a red chip at the bottom of the 5th column' do
       board.update_board(5, :red)
 
+      expected_output = <<~BOARD
+        1  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
+        2  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
+        3  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
+        4  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
+        5  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
+        6  ┃  | ⚫️ | ⚫️ | ⚫ | ⚫️ | 🔴️ | ⚫️ | ⚫️ |  ┃
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                 1    2    3    4    5    6    7
+      BOARD
+
       expect { board.print_board }.to output(printed_board).to_stdout
     end
 
@@ -69,7 +80,7 @@ RSpec.describe Board do
     end
   end
 
-  xdescribe '#winner' do
+  describe 'winner' do
     it 'returns blue if there are four blue chips in a horizontal row' do
       board.board_matrix[5][1] = '🔵'
       board.board_matrix[5][2] = '🔵'

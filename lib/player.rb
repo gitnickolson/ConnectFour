@@ -1,16 +1,7 @@
 # frozen_string_literal: true
 
 class Player
-
-  def get_color(number)
-    return unless is_number_valid?(number)
-
-    if number == 1
-      :blue
-    elsif number == 2
-      :red
-    end
-  end
+  attr_reader :player_color
 
   def get_input
     input = gets.chomp.to_i
@@ -28,4 +19,3 @@ class Player
     false
   end
 end
-
