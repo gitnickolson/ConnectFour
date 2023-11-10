@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Board
-  attr_reader :board_matrix
-
   def initialize
     @board_matrix = [%w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
                      %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
@@ -44,10 +42,14 @@ class Board
       return :red
     end
 
-    nil
+    if !board_matrix.include?('⚫️')
+      return :tie
+    end
   end
 
   private
+
+  attr_reader :board_matrix
 
   def find_free_field(field)
     row = 5

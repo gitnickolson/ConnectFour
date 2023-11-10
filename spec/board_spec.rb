@@ -6,19 +6,7 @@ require_relative 'spec_helper'
 RSpec.describe Board do
   subject(:board) { Board.new }
 
-  describe '#initialize' do
-    context 'When initialized' do
-      it 'the board matrix is defined' do
-        board
-        expect(board.board_matrix).to eql([%w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
-                                           %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
-                                           %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
-                                           %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
-                                           %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️],
-                                           %w[⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️, ⚫️]])
-      end
-    end
-  end
+  let(:local_matrix) { Array.new(6) { Array.new(7, '⚫️') } }
 
   describe '#print' do
     it 'prints the board' do
@@ -37,7 +25,9 @@ RSpec.describe Board do
     end
 
     it 'prints the board with a red chip at the bottom of the 5th column' do
-      board.board_matrix[5][4] = '🔴'
+      local_matrix[5][4] = '🔴'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expected_output = <<~BOARD
         1  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
@@ -54,7 +44,10 @@ RSpec.describe Board do
     end
 
     it 'prints the board with a blue chip at the bottom of the 3rd column' do
-      board.board_matrix[5][2] = '🔵'
+      local_matrix[5][2] = '🔵'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
+
 
       expected_output = <<~BOARD
         1  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
@@ -89,101 +82,128 @@ RSpec.describe Board do
     context 'When updating the board' do
       it 'should update the board with the blue chip in the first column' do
         board.update(1, :blue)
-        expect(board.board_matrix[5][0]).to eql('🔵')
+        expect(board.send(:board_matrix)[5][0]).to eql('🔵')
       end
 
       it 'should update the board with the blue chip in the first column' do
         board.update(3, :red)
-        expect(board.board_matrix[5][2]).to eql('🔴')
+        expect(board.send(:board_matrix)[5][2]).to eql('🔴')
       end
 
       it 'should update the board with the blue chip in the first column' do
         board.update(3, :red)
-        expect(board.board_matrix[5][2]).to eql('🔴')
+        expect(board.send(:board_matrix)[5][2]).to eql('🔴')
       end
 
       it 'should stack the chips if there are multiple chips in one column' do
         board.update(3, :red)
         board.update(3, :blue)
         board.update(3, :red)
-        expect(board.board_matrix[5][2]).to eql('🔴')
-        expect(board.board_matrix[4][2]).to eql('🔵')
-        expect(board.board_matrix[3][2]).to eql('🔴')
+        expect(board.send(:board_matrix)[5][2]).to eql('🔴')
+        expect(board.send(:board_matrix)[4][2]).to eql('🔵')
+        expect(board.send(:board_matrix)[3][2]).to eql('🔴')
       end
     end
   end
 
   describe 'winner' do
     it 'returns blue if there are four blue chips in a horizontal row' do
-      board.board_matrix[5][1] = '🔵'
-      board.board_matrix[5][2] = '🔵'
-      board.board_matrix[5][3] = '🔵'
-      board.board_matrix[5][4] = '🔵'
+      local_matrix[5][1] = '🔵'
+      local_matrix[5][2] = '🔵'
+      local_matrix[5][3] = '🔵'
+      local_matrix[5][4] = '🔵'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expect(board.winner).to eql(:blue)
     end
 
     it 'returns blue if there are four blue chips in a vertical row' do
-      board.board_matrix[5][2] = '🔵'
-      board.board_matrix[4][2] = '🔵'
-      board.board_matrix[3][2] = '🔵'
-      board.board_matrix[2][2] = '🔵'
+      local_matrix[5][2] = '🔵'
+      local_matrix[4][2] = '🔵'
+      local_matrix[3][2] = '🔵'
+      local_matrix[2][2] = '🔵'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expect(board.winner).to eql(:blue)
     end
 
     it 'returns blue if there are four blue chips in a right-diagonal row' do
-      board.board_matrix[5][1] = '🔵'
-      board.board_matrix[4][2] = '🔵'
-      board.board_matrix[3][3] = '🔵'
-      board.board_matrix[2][4] = '🔵'
+      local_matrix[5][1] = '🔵'
+      local_matrix[4][2] = '🔵'
+      local_matrix[3][3] = '🔵'
+      local_matrix[2][4] = '🔵'
 
+      board.instance_variable_set(:@board_matrix, local_matrix)
       expect(board.winner).to eql(:blue)
     end
 
     it 'returns blue if there are four blue chips in a left-diagonal row' do
-      board.board_matrix[5][4] = '🔵'
-      board.board_matrix[4][3] = '🔵'
-      board.board_matrix[3][2] = '🔵'
-      board.board_matrix[2][1] = '🔵'
+      local_matrix[5][4] = '🔵'
+      local_matrix[4][3] = '🔵'
+      local_matrix[3][2] = '🔵'
+      local_matrix[2][1] = '🔵'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expect(board.winner).to eql(:blue)
     end
 
     it 'returns blue if there are four red chips in a horizontal row' do
-      board.board_matrix[5][1] = '🔴'
-      board.board_matrix[5][2] = '🔴'
-      board.board_matrix[5][3] = '🔴'
-      board.board_matrix[5][4] = '🔴'
+      local_matrix[5][1] = '🔴'
+      local_matrix[5][2] = '🔴'
+      local_matrix[5][3] = '🔴'
+      local_matrix[5][4] = '🔴'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expect(board.winner).to eql(:red)
     end
 
     it 'returns blue if there are four red chips in a vertical row' do
-      board.board_matrix[5][2] = '🔴'
-      board.board_matrix[4][2] = '🔴'
-      board.board_matrix[3][2] = '🔴'
-      board.board_matrix[2][2] = '🔴'
+      local_matrix[5][2] = '🔴'
+      local_matrix[4][2] = '🔴'
+      local_matrix[3][2] = '🔴'
+      local_matrix[2][2] = '🔴'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expect(board.winner).to eql(:red)
     end
 
     it 'returns blue if there are four red chips in a right-diagonal row' do
-      board.board_matrix[5][1] = '🔴'
-      board.board_matrix[4][2] = '🔴'
-      board.board_matrix[3][3] = '🔴'
-      board.board_matrix[2][4] = '🔴'
+      local_matrix[5][1] = '🔴'
+      local_matrix[4][2] = '🔴'
+      local_matrix[3][3] = '🔴'
+      local_matrix[2][4] = '🔴'
 
+      board.instance_variable_set(:@board_matrix, local_matrix)
       expect(board.winner).to eql(:red)
     end
 
     it 'returns blue if there are four red chips in a left-diagonal row' do
-      board.board_matrix[5][4] = '🔴'
-      board.board_matrix[4][3] = '🔴'
-      board.board_matrix[3][2] = '🔴'
-      board.board_matrix[2][1] = '🔴'
+      local_matrix[5][4] = '🔴'
+      local_matrix[4][3] = '🔴'
+      local_matrix[3][2] = '🔴'
+      local_matrix[2][1] = '🔴'
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
 
       expect(board.winner).to eql(:red)
+    end
+
+    it 'returns tie if the board is full' do
+      local_matrix = [['🔴', '🔵', '🔴', '🔴', '🔵', '🔵', '🔴'],
+                      ['🔵', '🔴', '🔵', '🔴', '🔵', '🔵', '🔵'],
+                      ['🔴', '🔴', '🔵', '🔴', '🔵', '🔵', '🔵'],
+                      ['🔴', '🔵', '🔵', '🔵', '🔴', '🔴', '🔴'],
+                      ['🔵', '🔴', '🔴', '🔴', '🔵', '🔴', '🔴'],
+                      ['🔵', '🔵', '🔴', '🔵', '🔴', '🔴', '🔵']]
+
+      board.instance_variable_set(:@board_matrix, local_matrix)
+
+      expect(board.winner).to eql(:tie)
     end
   end
 end

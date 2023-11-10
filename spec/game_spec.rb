@@ -43,8 +43,6 @@ RSpec.describe Game do
 
   describe '#start' do
     it 'calls the print method on the board' do
-      game.instance_variable_set(:@turn, 41)
-
       game.start
       expect(board).to have_received(:print)
       expect(board).to have_received(:update).with(2, :red)
@@ -102,7 +100,7 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
     end
 
     it 'sends update to board' do
-      allow(board).to receive(:update)
+      allow(board).to receive(:winner).with(:tie)
       allow(blueplayer).to receive(:get_input).and_return(1)
 
       game.instance_variable_set(:@turn, 1)
