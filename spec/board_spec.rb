@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/board'
+require_relative 'spec_helper'
 
 RSpec.describe Board do
   subject(:board) { Board.new }

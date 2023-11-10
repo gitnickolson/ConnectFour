@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/player'
+require_relative 'spec_helper'
 
 describe Player do
   let(:player) { Player.new }

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/blue_player'
+require_relative 'spec_helper'
 
 describe BluePlayer do
   it 'is a subclass of Player' do

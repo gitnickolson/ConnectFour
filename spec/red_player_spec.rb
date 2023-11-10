@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require './lib/red_player'
+require_relative 'spec_helper'
 
 describe RedPlayer do
   it 'is a subclass of Player' do
