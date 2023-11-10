@@ -48,7 +48,6 @@ RSpec.describe Board do
 
       board.instance_variable_set(:@board_matrix, local_matrix)
 
-
       expected_output = <<~BOARD
         1  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
         2  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃

@@ -42,9 +42,9 @@ class Board
       return :red
     end
 
-    if !board_matrix.include?('⚫️')
-      return :tie
-    end
+    return if board_matrix.include?('⚫️')
+
+    :tie
   end
 
   private

@@ -40,9 +40,9 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
   def ended?
     case board.winner
     when :blue
-      puts "Congratulations! Blue player wins!"
+      puts 'Congratulations! Blue player wins!'
     when :red
-      puts "Congratulations! Red player wins!"
+      puts 'Congratulations! Red player wins!'
     when :tie
       puts "Oh no! It's a tie! No winner!"
     end
