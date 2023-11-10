@@ -5,8 +5,6 @@ require_relative 'red_player'
 require_relative 'board'
 
 class Game
-  attr_reader :turn, :active_player, :player_one, :player_two
-
   def initialize
     @board = Board.new
     @player_one = BluePlayer.new
@@ -23,15 +21,29 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
     start_loop
   end
 
-  def loop
-    @active_player = (turn % 2).even? ? player_one : player_two
-  end
-
   private
 
-  attr_reader :board
+  attr_reader :board, :player_input, :turn, :active_player, :player_one, :player_two
+
+  def loop
+    @active_player = (turn % 2).even? ? player_one : player_two
+    player_input = active_player.get_input
+
+    board.update(player_input, active_player.color)
+    @turn += 1
+  end
 
   def start_loop
-    loop
+    until ended?
+      loop
+    end
+  end
+
+  def ended?
+    if turn >= 42
+      return true
+    else
+      false
+    end
   end
 end
