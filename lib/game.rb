@@ -29,9 +29,13 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
     @active_player = (turn % 2).even? ? player_one : player_two
     player_input = active_player.get_input
 
-    board.update(player_input, active_player.color)
-    board.print
-    @turn += 1
+    case board.update(player_input, active_player.color)
+    when nil
+      puts "Error: You can't place any more chips in this column"
+    else
+      board.print
+      @turn += 1
+    end
   end
 
   def start_loop
@@ -49,6 +53,8 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
     when :tie
       puts "Oh no! It's a tie!"
       true
+    else
+      false
     end
   end
 end

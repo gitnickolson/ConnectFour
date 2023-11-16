@@ -65,7 +65,7 @@ RSpec.describe Board do
 
   describe '#update' do
     it 'returns error when field variable is > 6' do
-      expect(board.update(15, :blue)).to eql('No winner')
+      expect(board.update(15, :blue)).to eql(nil)
     end
 
     context 'When entering a color for the player_color parameter' do

@@ -28,7 +28,7 @@ class Board
     color = colors[player_color]
     row = find_free_field(field)
 
-    return 'No winner' if row.nil?
+    return nil if row.nil?
 
     board_matrix[row][field] = color
   end
@@ -57,7 +57,6 @@ class Board
       row -= 1
     end
 
-    puts "Error: You can't place any more chips in this column"
     nil
   end
 

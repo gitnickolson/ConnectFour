@@ -2,6 +2,7 @@
 
 require './lib/game'
 require_relative 'spec_helper'
+require 'stringio'
 
 RSpec.describe Game do
   board_matrix = []
@@ -93,6 +94,19 @@ RSpec.describe Game do
         game.instance_variable_set(:@turn, 0)
         game.start
         expect(board).to have_received(:print).at_least(:twice)
+      end
+
+      it 'prints an error if row is full' do
+        output = StringIO.new
+        $stdout = output
+        allow(board).to receive(:winner).and_return(nil, nil, :blue)
+        allow(board).to receive(:update).and_return(nil)
+
+        game.start
+        $stdout = STDOUT
+        console_output = output.string.strip
+        previous_last_line = console_output.lines[-2].strip
+        expect(previous_last_line).to eq("Error: You can't place any more chips in this column")
       end
     end
 
