@@ -10,7 +10,7 @@ RSpec.describe Game do
 
   let(:blueplayer) { instance_double(BluePlayer, get_input: 1, color: :blue) }
   let(:redplayer) { instance_double(RedPlayer, get_input: 2, color: :red) }
-  let(:board) { instance_double(Board, update: board_matrix, print: nil) }
+  let(:board) { instance_double(Board, update: board_matrix, print: nil, winner: nil) }
 
   before do
     allow(BluePlayer).to receive(:new).and_return(blueplayer)
@@ -44,26 +44,8 @@ RSpec.describe Game do
   describe '#start' do
     it 'calls the print method on the board' do
       game.start
-      expect(board).to have_received(:print)
-      expect(board).to have_received(:update).with(2, :red)
-    end
-
-    xit 'displays welcome message and prints the board' do
-      expected_board_output = <<~BOARD
-        1  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
-        2  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
-        3  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
-        4  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
-        5  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
-        6  ┃  | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ | ⚫️ |  ┃
-         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                 1    2    3    4    5    6    7
-      BOARD
-
-      expect do
-        game.start
-      end.to output("#{expected_board_output}Welcome to Connect Four! The player that wants to play with blue chips shall start!
-To play, just enter a number ranging from 1 to 7 to place your chip in the specified column.\n").to_stdout
+      expect(board).to have_received(:print).at_least(:once)
+      expect(board).to have_received(:update).with(1, :blue).at_least(:once)
     end
 
     it 'calls the start loop method' do
@@ -100,13 +82,56 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
     end
 
     it 'sends update to board' do
-      allow(board).to receive(:winner).with(:tie)
       allow(blueplayer).to receive(:get_input).and_return(1)
 
       game.instance_variable_set(:@turn, 1)
       game.start
 
-      expect(board).to have_received(:update).with(1, :blue).at_least(:once)
+      expect(board).to have_received(:update).with(2, :red).at_least(:once)
+    end
+  end
+
+  describe 'ended?' do
+    it 'outputs that blue won if board.winner == :blue' do
+      output = StringIO.new
+      $stdout = output
+      allow(blueplayer).to receive(:get_input).and_return(1)
+      allow(board).to receive(:winner).and_return(:blue)
+
+      game.start
+
+      $stdout = STDOUT
+      console_output = output.string.strip
+      last_line = console_output.lines.last.strip
+      expect(last_line).to eq("Congratulations! Blue won!")
+    end
+
+    it 'outputs that red won if board.winner == :red' do
+      output = StringIO.new
+      $stdout = output
+      allow(blueplayer).to receive(:get_input).and_return(1)
+      allow(board).to receive(:winner).and_return(:red)
+
+      game.start
+
+      $stdout = STDOUT
+      console_output = output.string.strip
+      last_line = console_output.lines.last.strip
+      expect(last_line).to eq("Congratulations! Red won!")
+    end
+
+    it 'outputs that it ended in a tie if board.winner == :tie' do
+      output = StringIO.new
+      $stdout = output
+      allow(blueplayer).to receive(:get_input).and_return(1)
+      allow(board).to receive(:winner).and_return(:tie)
+
+      game.start
+
+      $stdout = STDOUT
+      console_output = output.string.strip
+      last_line = console_output.lines.last.strip
+      expect(last_line).to eq("Oh no! It's a tie!")
     end
   end
 end

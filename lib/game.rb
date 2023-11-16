@@ -30,21 +30,26 @@ To play, just enter a number ranging from 1 to 7 to place your chip in the speci
     player_input = active_player.get_input
 
     board.update(player_input, active_player.color)
+    board.print
     @turn += 1
+    ended?
   end
 
   def start_loop
-    loop until ended?
+    loop until turn == 32
   end
 
   def ended?
     case board.winner
     when :blue
-      puts 'Congratulations! Blue player wins!'
+      puts "Congratulations! Blue won!"
+      return true
     when :red
-      puts 'Congratulations! Red player wins!'
+      puts "Congratulations! Red won!"
+      return true
     when :tie
-      puts "Oh no! It's a tie! No winner!"
+      puts "Oh no! It's a tie!"
+      return true
     end
   end
 end

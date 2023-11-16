@@ -34,6 +34,7 @@ class Board
   end
 
   def winner
+    puts "a"
     if horizontal_check == :blue || vertical_check == :blue ||
        right_diagonal_check == :blue || left_diagonal_check == :blue
       return :blue
@@ -42,7 +43,7 @@ class Board
       return :red
     end
 
-    return if board_matrix.include?('⚫️')
+    return nil if board_matrix.any?('⚫️')
 
     :tie
   end
