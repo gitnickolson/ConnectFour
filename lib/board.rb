@@ -34,18 +34,15 @@ class Board
   end
 
   def winner
-    puts "a"
     if horizontal_check == :blue || vertical_check == :blue ||
        right_diagonal_check == :blue || left_diagonal_check == :blue
-      return :blue
+      :blue
     elsif horizontal_check == :red || vertical_check == :red ||
           right_diagonal_check == :red || left_diagonal_check == :red
-      return :red
+      :red
+    elsif board_matrix.flatten.none?('⚫️')
+      :tie
     end
-
-    return nil if board_matrix.any?('⚫️')
-
-    :tie
   end
 
   private
