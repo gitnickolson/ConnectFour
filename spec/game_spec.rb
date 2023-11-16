@@ -64,15 +64,13 @@ RSpec.describe Game do
     context 'For different turn counts' do
       it 'chooses player one when turn is even' do
         allow(board).to receive(:winner).and_return(nil, :blue)
-        game.instance_variable_set(:@turn, 0)
         game.start
 
         expect(blueplayer).to have_received(:get_input).at_least(:once)
       end
 
       it 'chooses player two when turn is odd' do
-        allow(board).to receive(:winner).and_return(nil, :blue)
-        game.instance_variable_set(:@turn, 1)
+        allow(board).to receive(:winner).and_return(nil, nil, :blue)
         game.start
 
         expect(redplayer).to have_received(:get_input).at_least(:once)
@@ -80,7 +78,6 @@ RSpec.describe Game do
 
       it 'switches between players after receiving input' do
         allow(board).to receive(:winner).and_return(nil, nil, nil, :blue)
-        game.instance_variable_set(:@turn, 2)
         game.start
 
         expect(redplayer).to have_received(:get_input).at_least(:once)
@@ -91,7 +88,6 @@ RSpec.describe Game do
         allow(board).to receive(:winner).and_return(nil, nil, nil, :blue)
         allow(blueplayer).to receive(:get_input).and_return(1)
 
-        game.instance_variable_set(:@turn, 0)
         game.start
         expect(board).to have_received(:print).at_least(:twice)
       end
@@ -111,10 +107,9 @@ RSpec.describe Game do
     end
 
     it 'sends update to board' do
-      allow(board).to receive(:winner).and_return(nil, :blue)
+      allow(board).to receive(:winner).and_return(nil, nil, :blue)
       allow(blueplayer).to receive(:get_input).and_return(1)
 
-      game.instance_variable_set(:@turn, 1)
       game.start
 
       expect(board).to have_received(:update).with(2, :red).at_least(:once)
